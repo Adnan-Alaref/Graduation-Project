@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lower2-deployment
+  labels:
+    app: lower2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lower2
+  template:
+    metadata:
+      labels:
+        app: lower2
+    spec:
+      containers:
+      - name: lower2
+        image: mahdyy/lower
+        ports:
+        - containerPort: 5000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lower2-service
+  labels:
+    app: lower2
+spec:
+  selector:
+    app:  lower2
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8092
+      targetPort: 5000
+      nodePort: 30006

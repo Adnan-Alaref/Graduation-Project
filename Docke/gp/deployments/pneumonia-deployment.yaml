@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pneumonia-deployment
+  labels:
+    app: pneumonia
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pneumonia
+  template:
+    metadata:
+      labels:
+        app: pneumonia
+    spec:
+      containers:
+      - name: pneumonia
+        image: adnanalaref/model
+        ports:
+        - containerPort: 5000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pneumonia-service
+  labels:
+    app: pneumonia
+spec:
+  selector:
+    app:  pneumonia
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8090
+      targetPort: 5000
+      nodePort: 30004

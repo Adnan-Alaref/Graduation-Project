@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prostate-deployment
+  labels:
+    app: prostate
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prostate
+  template:
+    metadata:
+      labels:
+        app: prostate
+    spec:
+      containers:
+      - name: prostate
+        image: mahdyy/prostate
+        ports:
+        - containerPort: 8000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prostate-service
+  labels:
+    app: prostate
+spec:
+  selector:
+    app:  prostate
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8086
+      targetPort: 8000
+      nodePort: 30000

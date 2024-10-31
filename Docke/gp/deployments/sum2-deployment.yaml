@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sum2-deployment
+  labels:
+    app: sum2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sum2
+  template:
+    metadata:
+      labels:
+        app: sum2
+    spec:
+      containers:
+      - name: sum2
+        image: mahdyy/sum
+        ports:
+        - containerPort: 5000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sum2-service
+  labels:
+    app: sum2
+spec:
+  selector:
+    app:  sum2
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8091
+      targetPort: 5000
+      nodePort: 30005

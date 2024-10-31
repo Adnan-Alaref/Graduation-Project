@@ -1,0 +1,18 @@
+cmd
+kubectl get all
+minikube start
+minikube status
+kubectl get pods
+kubectl describe pods
+kubectl get all
+kubectl describe Pod
+gp
+uvicorn main:app
+
+ports
+prostata 8000
+sum 5000
+lower 5000
+upper 5000
+goviolin 8080
+Pneumonia Diagnosis 5000

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: %deployment_name%
+  labels:
+    app: %label_name%
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: %label_name%
+  template:
+    metadata:
+      labels:
+        app: %label_name%
+    spec:
+      containers:
+      - name: %container_name%
+        image: %image_name%
+        ports:
+        - containerPort: %container_port%
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: %service_name%
+  labels:
+    app: %label_name%
+spec:
+  selector:
+    app:  %label_name%
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: %port%
+      targetPort: %target_port%
+      nodePort: %node_port%

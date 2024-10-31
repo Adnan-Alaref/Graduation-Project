@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: upper-deployment
+  labels:
+    app: upper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: upper
+  template:
+    metadata:
+      labels:
+        app: upper
+    spec:
+      containers:
+      - name: upper
+        image: mahdyy/upper
+        ports:
+        - containerPort: 5000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: upper-service
+  labels:
+    app: upper
+spec:
+  selector:
+    app:  upper
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8089
+      targetPort: 5000
+      nodePort: 30003

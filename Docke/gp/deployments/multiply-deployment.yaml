@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: multiply-deployment
+  labels:
+    app: multiply
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: multiply
+  template:
+    metadata:
+      labels:
+        app: multiply
+    spec:
+      containers:
+      - name: multiply
+        image: omeragamy/multiply
+        ports:
+        - containerPort: 5000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: multiply-service
+  labels:
+    app: multiply
+spec:
+  selector:
+    app:  multiply
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8094
+      targetPort: 5000
+      nodePort: 30008

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goviolin-deployment
+  labels:
+    app: goviolin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: goviolin
+  template:
+    metadata:
+      labels:
+        app: goviolin
+    spec:
+      containers:
+      - name: goviolin
+        image: mahdyy/goviolin
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: goviolin-service
+  labels:
+    app: goviolin
+spec:
+  selector:
+    app:  goviolin
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8090
+      targetPort: 8080
+      nodePort: 30004
